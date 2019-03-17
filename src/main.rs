@@ -4,7 +4,9 @@ use select::document::Document;
 use select::predicate::Name;
 
 use std::fs::File;
+use std::path::Path;
 
+// mod html;
 mod lib;
 
 const BASE_URL: &str = "http://restaurant-seclin.atosworldline.com";
@@ -44,8 +46,9 @@ fn main() {
         .unwrap();
 
     // TODO randomize filename
-    let mut path = File::create("/tmp/crustyline.xls").unwrap();
-    xls.copy_to(&mut path).unwrap();
+    let path = Path::new("/tmp/crustyline.xls");
+    let mut file = File::create(path).unwrap();
+    xls.copy_to(&mut file).unwrap();
 
-    lib::from_xls(path);
+    lib::from_xls_to_html(path);
 }
