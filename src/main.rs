@@ -50,5 +50,6 @@ fn main() {
     let mut file = File::create(path).unwrap();
     xls.copy_to(&mut file).unwrap();
 
-    lib::from_xls_to_html(path);
+    let res = lib::from_xls_to_html(path);
+    println!("{}", res);
 }

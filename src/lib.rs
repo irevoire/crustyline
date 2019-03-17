@@ -1,5 +1,6 @@
-use calamine::DataType::String;
+use calamine::DataType::String as Calastring;
 use calamine::{open_workbook, Reader, Xls};
+
 use std::path::Path;
 
 use regex::Regex;
@@ -9,34 +10,37 @@ use chrono::TimeZone;
 
 // use crate::html;
 
-pub fn from_xls_to_html(path: &Path) {
+pub fn from_xls_to_html(path: &Path) -> String {
+    let mut res = String::new();
     let mut excel: Xls<_> = open_workbook(&path).unwrap();
     let sheet = excel.sheet_names().to_owned();
     let sheet = sheet.first().unwrap();
-    print!("{}", HTML_START);
-    print!("{}", HEADER_START);
-    print!("{}", HEADER_CSS);
-    print!("{}", HEADER_END);
+    res.push_str(HTML_START);
+    res.push_str(HTML_START);
+    res.push_str(HEADER_START);
+    res.push_str(HEADER_CSS);
+    res.push_str(HEADER_END);
     if let Some(Ok(r)) = excel.worksheet_range(sheet) {
-        println!("{}", TABLE_START);
+        res.push_str(TABLE_START);
         for row in r.rows() {
-            print!("<tr>");
+            res.push_str("<tr>");
             for el in row {
-                print!(
-                    "<td>{}</td>",
-                    match el {
-                        String(s) => &s,
-                        _ => "",
-                    }
-                );
+                res.push_str("<td>");
+                if let Calastring(s) = el {
+                    res.push_str(s);
+                }
+                res.push_str("</td>");
             }
-            println!("</tr>");
+            res.push_str("</tr>");
         }
-        println!("{}", TABLE_END);
+        res.push_str(TABLE_END);
     } else {
         println!("xls is broken");
     }
-    print!("{}", HTML_END);
+    res.push_str(HTML_END);
+    res.push_str(HTML_END);
+
+    return res;
 }
 
 pub fn compute_file(file: &str) -> Option<i64> {
