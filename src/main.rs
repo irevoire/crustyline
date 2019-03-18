@@ -6,10 +6,9 @@ use select::predicate::Name;
 use std::fs::File;
 use std::path::Path;
 
-use simple_server::Server;
-
 mod date;
 mod html;
+mod server;
 
 const BASE_URL: &str = "http://restaurant-seclin.atosworldline.com";
 const MENU: &str = "/WidgetPage.aspx?widgetId=35";
@@ -17,13 +16,9 @@ const COOKIE: &str = "portal_url=restaurant-seclin.atosworldline.com/; language=
 
 fn main() {
     let res = get_menu();
+    std::fs::write("static/index.html", res).expect("Unable to write the html file");
 
-    let host = "127.0.0.1";
-    let port = "7878";
-
-    let server = Server::new(move |_, mut response| Ok(response.body(res.as_bytes().to_vec())?));
-
-    server.listen(host, port);
+    server::start();
 }
 
 fn get_menu() -> String {

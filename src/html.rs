@@ -45,31 +45,4 @@ const TABLE_END: &str = "</table></tbody>";
 const HEADER_START: &str = "<head><meta charset=\"utf-8\"><title>Menu Wordline</title>";
 const HEADER_END: &str = "</head>";
 
-const HEADER_CSS: &str = "<style>
-body {
-    background-color: rgb(54, 57, 62);;
-    color: rgb(203, 205, 207);
-}
-table {
-    border-collapse: collapse;
-    border: 1px solid #75715E;
-}
-table, th, td {
-    border-bottom: 1px solid #75715E;
-    text-align: center;
-    vertical-align: center;
-}
-tr:nth-child(n+2) td:nth-child(2n+1) {
-    border-left: 1px solid #75715E;
-}
-tr:nth-child(n+5) td:nth-child(2n+1) {
-    background-color: rgb(47, 49, 54);
-}
-tr:nth-child(1) {
-    background-color: rgb(32, 34, 37);
-}
-
-tr:nth-child(4) {
-    background-color: rgb(47, 49, 54);
-}
-</style>";
+const HEADER_CSS: &str = "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>";
