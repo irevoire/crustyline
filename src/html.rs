@@ -36,7 +36,6 @@ pub fn from_xls(path: &Path) -> String {
     return res;
 }
 
-
 const HTML_START: &str = "<!DOCTYPE html><body>";
 const HTML_END: &str = "</html></body>";
 

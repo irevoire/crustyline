@@ -3,11 +3,12 @@ use regex::Regex;
 use chrono::prelude::*;
 use chrono::TimeZone;
 
+// TODO refactor this function into multiple small function
 pub fn compute_file(file: &str) -> Option<i64> {
     let today = Local::now();
 
     let re = Regex::new(r"(?i)semaine du (?P<start>\d{2}) au (?P<end>\d{2})").unwrap();
-    // let dates = Vec::new();
+
     for group in re.captures_iter(file) {
         let start = group["start"].parse().unwrap();
         let end = group["end"].parse().unwrap();

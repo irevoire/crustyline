@@ -8,8 +8,8 @@ use std::path::Path;
 
 use simple_server::Server;
 
+mod date;
 mod html;
-mod lib;
 
 const BASE_URL: &str = "http://restaurant-seclin.atosworldline.com";
 const MENU: &str = "/WidgetPage.aspx?widgetId=35";
@@ -21,9 +21,7 @@ fn main() {
     let host = "127.0.0.1";
     let port = "7878";
 
-    let server = Server::new(move |_, mut response| {
-        Ok(response.body(res.as_bytes().to_vec())?)
-    });
+    let server = Server::new(move |_, mut response| Ok(response.body(res.as_bytes().to_vec())?));
 
     server.listen(host, port);
 }
@@ -46,7 +44,7 @@ fn get_menu() -> String {
     let timestamps: Vec<i64> = list
         .iter()
         .map(|path| path.split("/").last().unwrap())
-        .map(|file| lib::compute_file(file).unwrap())
+        .map(|file| date::compute_file(file).unwrap())
         .collect();
 
     // get the index of the closest week of today
