@@ -84,8 +84,8 @@ const HEADER_END: &str = "</head>";
 
 const HEADER_CSS: &str = "<style>
 body {
-    background-color: #272822;
-    color: #F8F8F2;
+    background-color: rgb(54, 57, 62);;
+    color: rgb(203, 205, 207);
 }
 table {
     border-collapse: collapse;
@@ -100,10 +100,13 @@ tr:nth-child(n+2) td:nth-child(2n+1) {
     border-left: 1px solid #75715E;
 }
 tr:nth-child(n+5) td:nth-child(2n+1) {
-    background-color: #1C1D17;
+    background-color: rgb(47, 49, 54);
 }
-tr:nth-child(-n+4) {
-    background-color: #3E3D32;
+tr:nth-child(1) {
+    background-color: rgb(32, 34, 37);
 }
 
+tr:nth-child(4) {
+    background-color: rgb(47, 49, 54);
+}
 </style>";
