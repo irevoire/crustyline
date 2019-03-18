@@ -6,6 +6,8 @@ use select::predicate::Name;
 use std::fs::File;
 use std::path::Path;
 
+use simple_server::Server;
+
 // mod html;
 mod lib;
 
@@ -14,6 +16,19 @@ const MENU: &str = "/WidgetPage.aspx?widgetId=35";
 const COOKIE: &str = "portal_url=restaurant-seclin.atosworldline.com/; language=FR";
 
 fn main() {
+    let res = get_menu();
+
+    let host = "127.0.0.1";
+    let port = "7878";
+
+    let server = Server::new(move |_, mut response| {
+        Ok(response.body(res.as_bytes().to_vec())?)
+    });
+
+    server.listen(host, port);
+}
+
+fn get_menu() -> String {
     let resp = reqwest::Client::new()
         .get(&format!("{}{}", BASE_URL, MENU))
         .header("Cookie", COOKIE) // needed to avoid redirection
@@ -50,6 +65,5 @@ fn main() {
     let mut file = File::create(path).unwrap();
     xls.copy_to(&mut file).unwrap();
 
-    let res = lib::from_xls_to_html(path);
-    println!("{}", res);
+    lib::from_xls_to_html(path)
 }
