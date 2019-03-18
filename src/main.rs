@@ -8,7 +8,7 @@ use std::path::Path;
 
 use simple_server::Server;
 
-// mod html;
+mod html;
 mod lib;
 
 const BASE_URL: &str = "http://restaurant-seclin.atosworldline.com";
@@ -65,5 +65,5 @@ fn get_menu() -> String {
     let mut file = File::create(path).unwrap();
     xls.copy_to(&mut file).unwrap();
 
-    lib::from_xls_to_html(path)
+    html::from_xls(path)
 }
