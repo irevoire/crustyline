@@ -7,8 +7,8 @@ use std::fs::File;
 use std::path::Path;
 
 mod date;
-mod html;
 mod server;
+mod menu;
 
 const BASE_URL: &str = "http://restaurant-seclin.atosworldline.com";
 const MENU: &str = "/WidgetPage.aspx?widgetId=35";
@@ -58,5 +58,5 @@ fn get_menu() -> String {
     let mut file = File::create(path).unwrap();
     xls.copy_to(&mut file).unwrap();
 
-    html::from_xls(path)
+    menu::from_xls(path)
 }
