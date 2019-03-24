@@ -1,3 +1,7 @@
+mod date;
+mod server;
+mod menu;
+
 use reqwest;
 
 use select::document::Document;
@@ -6,22 +10,19 @@ use select::predicate::Name;
 use std::fs::File;
 use std::path::Path;
 
-mod date;
-mod server;
-mod menu;
-
 const BASE_URL: &str = "http://restaurant-seclin.atosworldline.com";
 const MENU: &str = "/WidgetPage.aspx?widgetId=35";
 const COOKIE: &str = "portal_url=restaurant-seclin.atosworldline.com/; language=FR";
 
 fn main() {
     let res = get_menu();
+    let res = menu::to_html(res);
     std::fs::write("static/index.html", res).expect("Unable to write the html file");
 
     server::start();
 }
 
-fn get_menu() -> String {
+fn get_menu() -> menu::Menu {
     let resp = reqwest::Client::new()
         .get(&format!("{}{}", BASE_URL, MENU))
         .header("Cookie", COOKIE) // needed to avoid redirection
@@ -39,7 +40,7 @@ fn get_menu() -> String {
     let timestamps: Vec<i64> = list
         .iter()
         .map(|path| path.split("/").last().unwrap())
-        .map(|file| date::compute_file(file).unwrap())
+        .filter_map(|file| date::compute_file(file))
         .collect();
 
     // get the index of the closest week of today

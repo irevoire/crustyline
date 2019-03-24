@@ -2,8 +2,8 @@ use crate::menu::food::{Food};
 
 #[derive(Debug)]
 pub struct Day {
-    name: String,
-    food: Vec<Food>,
+    pub name: String,
+    pub food: Vec<Food>,
 }
 
 impl Day {

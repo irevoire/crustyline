@@ -10,7 +10,6 @@ pub fn start() {
         }
 
         // if not a file
-        Response::redirect_302("index.html")
-            .with_status_code(302)
+        Response::redirect_302("index.html").with_status_code(302)
     });
 }
