@@ -1,6 +1,6 @@
-mod week;
 mod day;
 mod food;
+mod week;
 
 use day::Day;
 
@@ -21,15 +21,22 @@ pub fn from_xls(path: &Path) -> Menu {
     if let Some(Ok(r)) = excel.worksheet_range(sheet) {
         let mut rows = r.rows();
 
-        week.header = rows.next().unwrap().iter()
+        week.header = rows
+            .next()
+            .unwrap()
+            .iter()
             .fold(String::from(""), |acc, el| format!("{} {}", acc.trim(), el))
-            .trim().to_string();
+            .trim()
+            .to_string();
 
         // then skip the 2 useless row
         rows.next();
         rows.next();
 
-        week.days = rows.next().unwrap().iter()
+        week.days = rows
+            .next()
+            .unwrap()
+            .iter()
             .skip(1)
             .step_by(2)
             .map(|el| Day::new(el.to_string()))
@@ -53,12 +60,9 @@ pub fn from_xls(path: &Path) -> Menu {
 
 pub fn to_html(menu: Menu) -> String {
     let mut res = String::new();
-
     res.push_str("<!DOCTYPE HTML><html lang=\"fr\">");
     res.push_str("<head><meta charset=\"utf-8\"><title>Menu Wordline</title>");
-
     res.push_str("<link rel=\"stylesheet\" href=\"style.css\">");
-
     res.push_str("</head><body>");
 
     res.push_str("<table>");
@@ -69,28 +73,36 @@ pub fn to_html(menu: Menu) -> String {
     res.push_str("<thead>");
     res.push_str("<tr><th></th>"); // one empy cell
     res.push_str(
-        &menu.days.iter()
-        .map(|d| format!("<td>{}</td>", d.name))
-        .collect::<Vec<String>>()
-        .join(" ")
-        );
-    res.push_str("</thead>");
+        &menu
+            .days
+            .iter()
+            .map(|d| format!("<td colspan=\"2\">{}</td>", d.name))
+            .collect::<Vec<String>>()
+            .join(""),
+    );
+    res.push_str("</tr></thead>");
 
     res.push_str("<tbody>");
+    let mut header = menu.food_type.iter().map(|t| format!("<th>{}</th>", t));
+    let mut days = menu
+        .days
+        .iter()
+        .map(|d| {
+            d.food
+                .iter()
+                .map(|f| format!("<td>{}</td><td>{:.4}</td>", f.name, f.price))
+        })
+        .collect::<Vec<_>>();
 
-
-
-    res.push_str("</tbody>");
-    /*
-    for i in 0..food_type.len() {
+    while let Some(h) = header.next() {
         res.push_str("<tr>");
-        res.push_str(format!("<td>{}</td>", menu.food_type[i]));
-        for d in days.iter() {
-            res.push_str(format!("<td>{}</td>", d.food_type[i]));
+        res.push_str(&h);
+        for d in &mut days {
+            res.push_str(&d.next().unwrap());
         }
         res.push_str("</tr>");
     }
-    */
+    res.push_str("</tbody>");
 
     res.push_str("</body></html>");
     return res;
