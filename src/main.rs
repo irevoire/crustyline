@@ -1,6 +1,6 @@
 mod date;
-mod server;
 mod menu;
+mod server;
 
 use reqwest;
 
@@ -31,22 +31,16 @@ fn get_menu() -> menu::Menu {
 
     let document = Document::from_read(resp).unwrap();
     // all the links in the document
-    let list: Vec<&str> = document
+    let list: Vec<(i64, &str)> = document
         .find(Name("a"))
-        .filter_map(|n| n.attr("href"))
-        .collect();
-
-    // get all the dates
-    let timestamps: Vec<i64> = list
-        .iter()
-        .map(|path| path.split("/").last().unwrap())
-        .filter_map(|file| date::compute_file(file))
+        .filter_map(|n| Some((n.first_child()?.text(), n.attr("href")?)))
+        .filter_map(|(name, file)| Some((date::compute_file(&name)?, file)))
         .collect();
 
     // get the index of the closest week of today
-    let value = timestamps.iter().min().unwrap();
-    let index = timestamps.iter().position(|v| *v == *value).unwrap();
-    let current_menu = format!("{}{}", BASE_URL, list[index]);
+    let value = list.iter().min_by(|x, y| x.1.cmp(y.1)).unwrap();
+    let index = list.iter().position(|v| *v == *value).unwrap();
+    let current_menu = format!("{}{}", BASE_URL, list[index].1);
 
     let mut xls = reqwest::Client::new()
         .get(&current_menu)
