@@ -1,4 +1,4 @@
-use crate::menu::food::{Food};
+use crate::menu::food::Food;
 
 #[derive(Debug)]
 pub struct Day {

@@ -1,4 +1,4 @@
-use crate::menu::day::{Day};
+use crate::menu::day::Day;
 
 #[derive(Debug)]
 pub struct Week {
