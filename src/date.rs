@@ -7,7 +7,7 @@ use chrono::TimeZone;
 pub fn compute_file(file: &str) -> Option<i64> {
     let today = Local::now();
 
-    let re = Regex::new(r"(?i)semaine du (?P<start>\d{2}) au (?P<end>\d{2})").unwrap();
+    let re = Regex::new(r"(?i)semaine du (?P<start>\d+) au (?P<end>\d+)").unwrap();
 
     for group in re.captures_iter(file) {
         let start = group["start"].parse().unwrap();
