@@ -10,8 +10,9 @@ table, th, td {
 	border-bottom: 1px solid #75715E;
 	text-align: center;
 	vertical-align: center;
+	padding: 2px 15px;
 }
-tr:nth-child(n+2) td:nth-child(2n+1) {
+tr:nth-child(n+2) td:nth-child(2n) {
 	border-left: 1px solid #75715E;
 }
 tr:nth-child(n+5) td:nth-child(2n+1) {
