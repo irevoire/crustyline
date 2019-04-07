@@ -39,8 +39,7 @@ fn get_menu() -> menu::Menu {
 
     // get the index of the closest week of today
     let value = list.iter().min_by(|x, y| x.1.cmp(y.1)).unwrap();
-    let index = list.iter().position(|v| *v == *value).unwrap();
-    let current_menu = format!("{}{}", BASE_URL, list[index].1);
+    let current_menu = format!("{}{}", BASE_URL, value.1);
 
     let mut xls = reqwest::Client::new()
         .get(&current_menu)
