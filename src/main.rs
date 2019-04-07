@@ -4,8 +4,6 @@ mod server;
 
 use clokwerk::{Scheduler, TimeUnits};
 
-use reqwest;
-
 use select::document::Document;
 use select::predicate::Name;
 
