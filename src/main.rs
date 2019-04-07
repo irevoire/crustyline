@@ -38,7 +38,7 @@ fn get_menu() -> menu::Menu {
         .collect();
 
     // get the index of the closest week of today
-    let value = list.iter().min_by(|x, y| x.1.cmp(y.1)).unwrap();
+    let value = list.iter().min_by(|x, y| x.0.cmp(&y.0)).unwrap();
     let index = list.iter().position(|v| *v == *value).unwrap();
     let current_menu = format!("{}{}", BASE_URL, list[index].1);
 
