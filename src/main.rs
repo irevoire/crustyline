@@ -16,6 +16,8 @@ const MENU: &str = "/WidgetPage.aspx?widgetId=35";
 const COOKIE: &str = "portal_url=restaurant-seclin.atosworldline.com/; language=FR";
 
 fn main() {
+    env_logger::from_env(env_logger::Env::default().default_filter_or("crustyline")).init();
+
     let mut scheduler = Scheduler::new();
     scheduler.every(1.day()).run(move || update_menu());
     let _ = scheduler.watch_thread(Duration::new(24 * 60 * 60, 0)); // one day
@@ -25,11 +27,11 @@ fn main() {
 }
 
 fn update_menu() {
-    println!("Start updating the menu");
+    log::info!("Start updating the menu");
     let res = get_menu();
     let res = menu::to_html(res);
     std::fs::write("static/index.html", res).expect("Unable to write the html file");
-    println!("Menu updated");
+    log::info!("Menu updated");
 }
 
 fn get_menu() -> menu::Menu {
