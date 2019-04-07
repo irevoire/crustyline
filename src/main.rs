@@ -2,6 +2,8 @@ mod date;
 mod menu;
 mod server;
 
+use clokwerk::{Scheduler, TimeUnits};
+
 use reqwest;
 
 use select::document::Document;
@@ -9,17 +11,27 @@ use select::predicate::Name;
 
 use std::fs::File;
 use std::path::Path;
+use std::time::Duration;
 
 const BASE_URL: &str = "http://restaurant-seclin.atosworldline.com";
 const MENU: &str = "/WidgetPage.aspx?widgetId=35";
 const COOKIE: &str = "portal_url=restaurant-seclin.atosworldline.com/; language=FR";
 
 fn main() {
+    let mut scheduler = Scheduler::new();
+    scheduler.every(1.day()).run(move || update_menu());
+    let _ = scheduler.watch_thread(Duration::new(24 * 60 * 60, 0)); // one day
+    update_menu();
+
+    server::start();
+}
+
+fn update_menu() {
+    println!("Start updating the menu");
     let res = get_menu();
     let res = menu::to_html(res);
     std::fs::write("static/index.html", res).expect("Unable to write the html file");
-
-    server::start();
+    println!("Menu updated");
 }
 
 fn get_menu() -> menu::Menu {
