@@ -62,13 +62,20 @@ pub fn to_html(menu: Menu) -> String {
     let mut res = String::new();
     res.push_str("<!DOCTYPE HTML><html lang=\"fr\">");
     res.push_str("<head><meta charset=\"utf-8\"><title>Menu Wordline</title>");
+    res.push_str("<script src=\"script.js\"></script>");
+    res.push_str("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\"> ");
+    res.push_str(
+        "<script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\"></script>
+<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\"></script>
+<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\"/></script>",
+    );
     res.push_str("<link rel=\"stylesheet\" href=\"style.css\">");
     res.push_str("</head><body>");
 
     let header_day = &menu
         .days
         .iter()
-        .map(|d| format!("<table><caption>{}</caption><tbody>", d.name))
+        .map(|d| d.name.clone())
         .collect::<Vec<String>>();
 
     let header = menu.food_type.iter().map(|t| format!("<th>{}</th>", t));
@@ -82,8 +89,18 @@ pub fn to_html(menu: Menu) -> String {
         })
         .collect::<Vec<_>>();
 
+    res.push_str(
+        "<div id=\"carouselExampleControls\" class=\"carousel slide\" data-ride=\"carousel\" data-interval=\"false\">",
+    );
+    res.push_str("<div class=\"carousel-inner\">");
+
     for i in 0..5 {
-        res.push_str(&header_day[i]);
+        res.push_str(&format!(
+            "<div id=\"{}\" class=\"carousel-item\">",
+            &header_day[i]
+        ));
+        res.push_str(&format!("<h1>{}</h1>", &header_day[i]));
+        res.push_str("<table><tbody>");
         let mut tmp_header = header.clone();
         while let Some(h) = tmp_header.next() {
             res.push_str("\n<tr>");
@@ -92,7 +109,17 @@ pub fn to_html(menu: Menu) -> String {
             res.push_str("</tr>");
         }
         res.push_str("</tbody></table>");
+        res.push_str("</div>");
     }
+    res.push_str("</div>");
+
+    res.push_str("<a class=\"carousel-control-prev\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"prev\">
+    <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>
+    <span class=\"sr-only\">Previous</span>
+  </a>");
+    res.push_str("<a class=\"carousel-control-next\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"next\">
+    <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>
+    <span class=\"sr-only\">Next</span></a>");
 
     res.push_str("</body></html>");
     return res;
