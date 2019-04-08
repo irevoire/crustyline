@@ -3,8 +3,9 @@ body {
 	color: rgb(203, 205, 207);
 }
 table {
+	font-size: 200%;
 	margin: auto;
-    margin-bottom: 10%;
+	margin-bottom: 10%;
 	width: 90%;
 	height: 90vh;
 	border-collapse: collapse;
@@ -20,15 +21,14 @@ tr:nth-child(n) td:nth-child(2n) {
 	border-left: 1px solid #75715E;
 }
 tr:nth-child(n) td:nth-child(3) {
-    width: 15%;
+	width: 15%;
 	background-color: rgb(47, 49, 54);
 }
 tr:nth-child(n) td:nth-child(2) {
-    width: 60%;
+	width: 60%;
 }
 caption {
-    border: 1px solid #75715E;
-    background-color: rgb(47, 49, 54);
-    height: 10%;
-    font-size: 200%;
+	border: 1px solid #75715E;
+	background-color: rgb(47, 49, 54);
+	height: 10%;
 }
