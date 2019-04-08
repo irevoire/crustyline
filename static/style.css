@@ -19,14 +19,16 @@ table, th, td {
 tr:nth-child(n) td:nth-child(2n) {
 	border-left: 1px solid #75715E;
 }
-tr:nth-child(n) td:nth-child(2n+1) {
+tr:nth-child(n) td:nth-child(3) {
+    width: 15%;
 	background-color: rgb(47, 49, 54);
+}
+tr:nth-child(n) td:nth-child(2) {
+    width: 60%;
 }
 caption {
     border: 1px solid #75715E;
     background-color: rgb(47, 49, 54);
-    height: 40px;
-    font-size: 20px;
+    height: 10%;
+    font-size: 200%;
 }
-
-
