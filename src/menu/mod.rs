@@ -65,25 +65,13 @@ pub fn to_html(menu: Menu) -> String {
     res.push_str("<link rel=\"stylesheet\" href=\"style.css\">");
     res.push_str("</head><body>");
 
-    res.push_str("<table>");
-    let tmp = format!("<caption>{}</caption>", menu.header);
-    res.push_str(&tmp);
+    let header_day = &menu
+        .days
+        .iter()
+        .map(|d| format!("<table><caption>{}</caption><tbody>", d.name))
+        .collect::<Vec<String>>();
 
-    // get the name of the day "Lundi Mardi ..."
-    res.push_str("<thead>");
-    res.push_str("<tr><th></th>"); // one empy cell
-    res.push_str(
-        &menu
-            .days
-            .iter()
-            .map(|d| format!("<td colspan=\"2\">{}</td>", d.name))
-            .collect::<Vec<String>>()
-            .join(""),
-    );
-    res.push_str("</tr></thead>");
-
-    res.push_str("<tbody>");
-    let mut header = menu.food_type.iter().map(|t| format!("<th>{}</th>", t));
+    let header = menu.food_type.iter().map(|t| format!("<th>{}</th>", t));
     let mut days = menu
         .days
         .iter()
@@ -94,15 +82,17 @@ pub fn to_html(menu: Menu) -> String {
         })
         .collect::<Vec<_>>();
 
-    while let Some(h) = header.next() {
-        res.push_str("<tr>");
-        res.push_str(&h);
-        for d in &mut days {
-            res.push_str(&d.next().unwrap());
+    for i in 0..5 {
+        res.push_str(&header_day[i]);
+        let mut tmp_header = header.clone();
+        while let Some(h) = tmp_header.next() {
+            res.push_str("\n<tr>");
+            res.push_str(&h);
+            res.push_str(&days[i].next().unwrap());
+            res.push_str("</tr>");
         }
-        res.push_str("</tr>");
+        res.push_str("</tbody></table>");
     }
-    res.push_str("</tbody>");
 
     res.push_str("</body></html>");
     return res;
