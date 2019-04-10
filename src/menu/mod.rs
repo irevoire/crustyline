@@ -97,7 +97,7 @@ pub fn to_html(menu: Menu) -> String {
     for i in 0..5 {
         res.push_str(&format!(
             "<div id=\"{}\" class=\"carousel-item\">",
-            &header_day[i]
+            &header_day[i].trim()
         ));
         res.push_str(&format!("<h1>{}</h1>", &header_day[i]));
         res.push_str("<table><tbody>");
