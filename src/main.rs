@@ -19,8 +19,8 @@ fn main() {
     env_logger::from_env(env_logger::Env::default().default_filter_or("crustyline")).init();
 
     let mut scheduler = Scheduler::new();
-    scheduler.every(1.day()).run(move || update_menu());
-    let _ = scheduler.watch_thread(Duration::new(24 * 60 * 60, 0)); // one day
+    scheduler.every(1.day()).run(|| update_menu());
+    let _s = scheduler.watch_thread(Duration::from_secs(60 * 60)); // one hour
     update_menu();
 
     server::start();
