@@ -60,17 +60,17 @@ pub fn from_xls(path: &Path) -> Menu {
 
 pub fn to_html(menu: Menu) -> String {
     let mut res = String::new();
-    res.push_str("<!DOCTYPE HTML><html lang=\"fr\">");
-    res.push_str("<head><meta charset=\"utf-8\"><title>Menu Wordline</title>");
-    res.push_str("<script src=\"script.js\"></script>");
-    res.push_str("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\"> ");
+    res.push_str(r#"<!DOCTYPE HTML><html lang="fr">"#);
+    res.push_str(r#"<head><meta charset="utf-8"><title>Menu Wordline</title>"#);
+    res.push_str(r#"<script src="script.js"></script>"#);
+    res.push_str(r#"<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">"#);
     res.push_str(
-        "<script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\"></script>
-<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\"></script>
-<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\"/></script>",
+        r#"<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"/></script>"#,
     );
-    res.push_str("<link rel=\"stylesheet\" href=\"style.css\">");
-    res.push_str("</head><body>");
+    res.push_str(r#"<link rel="stylesheet" href="style.css">"#);
+    res.push_str(r#"</head><body>"#);
 
     let header_day = &menu
         .days
@@ -90,13 +90,13 @@ pub fn to_html(menu: Menu) -> String {
         .collect::<Vec<_>>();
 
     res.push_str(
-        "<div id=\"carouselExampleControls\" class=\"carousel slide\" data-ride=\"carousel\" data-interval=\"false\">",
+        r#"<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">"#,
     );
-    res.push_str("<div class=\"carousel-inner\">");
+    res.push_str(r#"<div class="carousel-inner">"#);
 
     for i in 0..5 {
         res.push_str(&format!(
-            "<div id=\"{}\" class=\"carousel-item\">",
+            r#"<div id="{}" class="carousel-item">"#,
             &header_day[i].trim()
         ));
         res.push_str(&format!("<h1>{}</h1>", &header_day[i]));
@@ -113,13 +113,13 @@ pub fn to_html(menu: Menu) -> String {
     }
     res.push_str("</div>");
 
-    res.push_str("<a class=\"carousel-control-prev\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"prev\">
-    <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>
-    <span class=\"sr-only\">Previous</span>
-  </a>");
-    res.push_str("<a class=\"carousel-control-next\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"next\">
-    <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>
-    <span class=\"sr-only\">Next</span></a>");
+    res.push_str(r##"<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>"##);
+    res.push_str(r##"<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span></a>"##);
 
     res.push_str("</body></html>");
     return res;
