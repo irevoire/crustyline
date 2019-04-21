@@ -111,6 +111,12 @@ pub fn to_html(menu: Menu) -> String {
         res.push_str("</tbody></table>");
         res.push_str("</div>");
     }
+
+    // information case
+    res.push_str(r#"<div id="info" class="carousel-item">"#);
+    res.push_str(&format!("<h1>{}</h1>", menu.header));
+
+    res.push_str("</div>");
     res.push_str("</div>");
 
     res.push_str(r##"<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
