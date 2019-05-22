@@ -1,5 +1,5 @@
 body {
-    text-align: center;
+	text-align: center;
 	background-color: rgb(54, 57, 62);;
 	color: rgb(203, 205, 207);
 }
@@ -28,4 +28,29 @@ tr:nth-child(n) td:nth-child(2) {
 	width: 60%;
 }
 
+.carousel-item {
+	width: 100vw;
+	height: 100vh;
+}
 
+#date {
+	margin-top: 15vh;
+}
+
+#pun {
+	background-image: repeating-linear-gradient(90deg, violet, blue, green, yellow, orange, red, violet);
+	text-align: center;
+	background-size: 800% 800%;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: rainbow 8s ease infinite;
+	margin-top: 50px;
+	display: inline-block;
+	width: 70vw;
+}
+
+@keyframes rainbow {
+	0%{background-position:0% 50%}
+	50%{background-position:100% 25%}
+	100%{background-position:0% 50%}
+}

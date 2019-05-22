@@ -2,13 +2,10 @@ mod day;
 mod food;
 mod week;
 
-use day::Day;
-
-use calamine::{open_workbook, Reader, Xls};
-
-use std::path::Path;
-
 use crate::menu::week::Week;
+use calamine::{open_workbook, Reader, Xls};
+use day::Day;
+use std::path::Path;
 
 pub type Menu = Week;
 
@@ -114,7 +111,13 @@ pub fn to_html(menu: Menu) -> String {
 
     // information case
     res.push_str(r#"<div id="info" class="carousel-item">"#);
-    res.push_str(&format!("<h1>{}</h1>", menu.header));
+
+    res.push_str(&format!(r#"<h1 id="date">{}</h1>"#, menu.header));
+
+    let mut pun = reqwest::get("http:/pun.irevoire.ovh").unwrap();
+    let pun = pun.text().unwrap_or("No pun today".to_string());
+
+    res.push_str(&format!(r#"<h2 id="pun">{}</h2>"#, pun));
 
     res.push_str("</div>");
     res.push_str("</div>");
@@ -125,7 +128,8 @@ pub fn to_html(menu: Menu) -> String {
   </a>"##);
     res.push_str(r##"<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span></a>"##);
+    <span class="sr-only">Next</span></a>
+    </div>"##); // the last div of the carousel
 
     res.push_str("</body></html>");
     return res;
