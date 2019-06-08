@@ -10,17 +10,23 @@ pub fn compute_file(file: &str) -> Option<i64> {
     let re = Regex::new(r"(?i)semaine du (?P<start>\d+) au (?P<end>\d+)").unwrap();
 
     for group in re.captures_iter(file) {
-        let start = group["start"].parse().unwrap();
-        let end = group["end"].parse().unwrap();
+        let start = group["start"].parse().ok()?;
+        let end = group["end"].parse().ok()?;
 
-        // if end is < start then we are the next month
+        // if end is < start then we are changing of month
         let end = if end < start {
-            Utc.ymd(today.year(), today.month() + 1, end)
-                .and_hms(0, 0, 0)
+            Utc.ymd_opt(today.year(), today.month() + 1, end)
+                .earliest()?
+                .and_hms_opt(0, 0, 0)?
         } else {
-            Utc.ymd(today.year(), today.month(), end).and_hms(0, 0, 0)
+            Utc.ymd_opt(today.year(), today.month(), end)
+                .earliest()?
+                .and_hms_opt(0, 0, 0)?
         };
-        let start = Utc.ymd(today.year(), today.month(), start).and_hms(0, 0, 0);
+        let start = Utc
+            .ymd_opt(today.year(), today.month(), start)
+            .earliest()?
+            .and_hms_opt(0, 0, 0)?;
 
         // then convert the date to EPOCH to do the mean
         let start = start.timestamp();
