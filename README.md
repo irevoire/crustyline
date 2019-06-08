@@ -23,3 +23,15 @@ cargo build
 ```
 cargo run
 ```
+
+### Docker
+
+#### Pulling the image:
+```
+docker pull reg.irevoire.ovh/crustyline
+```
+
+#### Running the image:
+```
+docker run crustyline
+```
