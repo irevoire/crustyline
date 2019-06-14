@@ -33,5 +33,5 @@ docker pull reg.irevoire.ovh/crustyline
 
 #### Running the image:
 ```
-docker run crustyline
+docker run --restart=always -d --name crustyline reg.irevoire.ovh/crustyline
 ```
