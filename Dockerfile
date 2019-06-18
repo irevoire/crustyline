@@ -8,6 +8,6 @@ RUN git clone https://github.com/irevoire/crustyline && \
 
 WORKDIR crustyline
 
-EXPOSE 8787
+EXPOSE 7878
 
 CMD ./crustyline
